@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "蛙蛙写作助手",
+  "version": "1.1.4",
+  "description": "一键加载蛙蛙写作投稿作品列表、获取作品收益、统计在读人数每日变化，并导出收益汇总Excel与在读人数曲线。数据仅通过当前登录态访问官方后台接口，不会上传到第三方服务器。",
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://wawawriter.com/*",
+    "https://*.wawawriter.com/*"
+  ],
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "打开蛙蛙写作助手"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
