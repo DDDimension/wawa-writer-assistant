@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "蛙蛙写作助手",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "一键加载蛙蛙写作投稿作品列表、获取作品收益、统计在读人数每日变化，并导出收益汇总Excel与在读人数曲线。数据仅通过当前登录态访问官方后台接口，不会上传到第三方服务器。",
   "permissions": [
     "storage",

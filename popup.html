@@ -23,35 +23,90 @@
       </div>
     </header>
 
+    <div class="reminder-banner" id="refreshReminder" style="display:none">
+      <span class="reminder-icon">&#128276;</span>
+      <span class="reminder-text" id="reminderText">蛙蛙写作已更新今日数据，点击获取最新收益。</span>
+      <button class="reminder-btn" id="reminderFetch">立即获取</button>
+      <button class="reminder-close" id="reminderClose">&times;</button>
+    </div>
+
     <div class="actions">
       <button class="btn primary" type="button" id="loadBooks">加载作品列表</button>
       <button class="btn primary" type="button" id="fetchRevenue">一键获取收益</button>
       <button class="btn" type="button" id="exportExcel">导出Excel</button>
       <button class="btn" type="button" id="exportChart">导出曲线图</button>
+      <button class="btn" type="button" id="backupData">备份数据</button>
+      <button class="btn" type="button" id="restoreData">恢复数据</button>
+      <input type="file" id="restoreFile" accept=".json" style="display:none">
     </div>
 
-    <div class="status" id="status" data-type="info">请先保持蛙蛙写作登录态，然后点击“加载作品列表”或“一键获取收益”。每次统计都会按蛙蛙官方更新时间 14:30 归属日期并记录在读人数快照。</div>
+    <div class="status" id="status" data-type="info">请先保持蛙蛙写作登录态，然后点击"加载作品列表"或"一键获取收益"。每次统计都会按蛙蛙官方更新时间 14:30 归属日期并记录在读人数快照。</div>
 
     <div class="summary" id="summary">
       <div><b>作品数</b><span id="sumBooks">0</span></div>
       <div><b>历史总收益</b><span id="sumTotal">0.00</span></div>
       <div><b>昨日收益合计</b><span id="sumYesterday">0.00</span></div>
       <div><b>最新收益合计</b><span id="sumLatest">0.00</span></div>
+      <div><b>日均收益</b><span id="sumDailyAvg">0.00</span></div>
+      <div><b>千字收益</b><span id="sumPerKilo">0.00</span></div>
+      <div><b>预估月收益</b><span id="sumEstMonth">0.00</span></div>
+      <div><b>在读总人数</b><span id="sumReaders">0</span></div>
     </div>
 
-    <div class="chart-card">
-      <div class="chart-head">
-        <h2>每日在读人数曲线</h2>
-        <select class="chart-select" id="chartBook"></select>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-head">
+          <h2>每日在读人数曲线</h2>
+          <select class="chart-select" id="chartBook"></select>
+        </div>
+        <div class="chart-body">
+          <canvas id="readerChart"></canvas>
+        </div>
+        <p class="chart-hint" id="chartHint">
+          每次"加载作品列表"或"一键获取收益"都会记录当天各作品的在读人数（数据保存在本地浏览器中，不上传任何服务器）。
+          数据按蛙蛙官方更新时间 14:30 归属日期；连续多天统计后即可生成在读人数变化曲线，右上角下拉可切换「全部作品合计」或单本作品。
+          导出Excel时会同时导出每日在读人数明细，导出曲线图会下载当前选中曲线的PNG图片。
+        </p>
       </div>
-      <div class="chart-body">
-        <canvas id="readerChart"></canvas>
+
+      <div class="chart-card">
+        <div class="chart-head">
+          <h2>每日收益趋势</h2>
+          <select class="chart-select" id="revenueChartBook"></select>
+        </div>
+        <div class="chart-body">
+          <canvas id="revenueChart"></canvas>
+        </div>
+        <p class="chart-hint" id="revenueChartHint">
+          每次"一键获取收益"都会记录当天各作品的收益快照，逐日累积形成收益趋势曲线。连续多天统计后即可看到收益变化趋势。
+        </p>
       </div>
-      <p class="chart-hint" id="chartHint">
-        每次“加载作品列表”或“一键获取收益”都会记录当天各作品的在读人数（数据保存在本地浏览器中，不上传任何服务器）。
-        数据按蛙蛙官方更新时间 14:30 归属日期；连续多天统计后即可生成在读人数变化曲线，右上角下拉可切换「全部作品合计」或单本作品。
-        导出Excel时会同时导出每日在读人数明细，导出曲线图会下载当前选中曲线的PNG图片。
-      </p>
+    </div>
+
+    <div class="table-toolbar">
+      <div class="search-box">
+        <span class="search-icon">&#128269;</span>
+        <input type="text" id="searchInput" placeholder="搜索作品名 / 笔名..." autocomplete="off">
+        <button class="search-clear" id="searchClear" style="display:none">&times;</button>
+      </div>
+      <div class="filter-group">
+        <select id="filterStatus" class="filter-select">
+          <option value="">全部状态</option>
+          <option value="contracted">已签约</option>
+          <option value="reviewing">投稿审核中</option>
+          <option value="approved">审核成功</option>
+          <option value="rejected">审核失败</option>
+          <option value="draft">草稿</option>
+          <option value="contracting">签约中</option>
+          <option value="contract_rejected">签约失败</option>
+        </select>
+        <select id="filterRevenue" class="filter-select">
+          <option value="">全部收益</option>
+          <option value="has">有收益</option>
+          <option value="none">暂无收益</option>
+        </select>
+        <span class="filter-count" id="filterCount"></span>
+      </div>
     </div>
 
     <div class="table-wrap">
